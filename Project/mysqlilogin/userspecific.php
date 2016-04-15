@@ -4,13 +4,40 @@
     require_once 'DBConnect.php';
     session_start();
 
-    if(!isset($_GET["logvar"]) && !isset($_GET["display"])){
+    if(!isset($_GET["logvar"]) && !isset($_GET["display"]) & isset($_GET["regvar"])){
+
+        $domname = $MySQLi_CON->real_escape_string(trim($_GET['user_name']));
+        $uemail = $MySQLi_CON->real_escape_string(trim($_GET['user_email']));
+        $upassword = $MySQLi_CON->real_escape_string(trim($_GET['password']));
+        $_SESSION["cu"] = $uemail;
+        $_SESSION["displayuser"] = $uemail;
+        //setcookie("User", $uemail, time() + 600);
+
+        $result = mysqli_query($MySQLi_CON, "SELECT * FROM users WHERE email = \"$uemail\"");
+        if(mysqli_num_rows($result) > 0){
+            echo "falseval";
+        }
+        if(mysqli_num_rows(mysqli_query($MySQLi_CON, "SELECT * FROM users WHERE domain = \"$domname\""))){
+            echo "falseval";
+        }
+        else {
+            $sql = "INSERT INTO users(domain, email, password) VALUES ('$domname', '$uemail', '$upassword')";
+            mysqli_query($MySQLi_CON, $sql);
+            echo true;
+        }
+
+    }
+
+
+    else if(!isset($_GET["logvar"]) && !isset($_GET["display"])){
         if(isset($_SESSION["cu"])){
             echo $_SESSION["displayuser"];
         }
         else
             echo false;
     }
+
+
 
     else if(!isset($_SESSION["cu"])){
         $userLoginName = $_GET["loginName"];
@@ -80,7 +107,12 @@ else if(isset($_SESSION["cu"])){
     $result = mysqli_query($MySQLi_CON, $sql);
     if(mysqli_num_rows($result)>0){
         while($row = mysqli_fetch_array($result)){
-            $alldata[++$dc] = $row[0]/$row[1];
+            if($row[1]!=0){
+                $alldata[++$dc] = $row[0]/$row[1];
+            }
+            else {
+                $alldata[++$dc] = 0;
+            }
         }
     }
 
