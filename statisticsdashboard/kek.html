@@ -65,7 +65,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" id="temp" href="index.html" style="letter-spacing:2px">S<span>H</span>E<span>R</span>LOC<span>K</span> ANALYTICS</a>
+                <a class="navbar-brand" id="temp" href="../Project/FrontEnd/RandomHTML/doc1.html" style="letter-spacing:2px">S<span>H</span>E<span>R</span>LOC<span>K</span> ANALYTICS</a>
             </div>
             <!-- Top Menu Items -->
             <ul class="nav navbar-right top-nav">
@@ -150,8 +150,8 @@
                     </ul>
                 </li>-->
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" id="temp" style="font-size:14px" data-toggle="dropdown"><!--<i class="fa fa-user"></i>--> Lellojel Ice <b class="caret"></b></a>
-                    <ul class="dropdown-menu">
+                    <a href="#" class="dropdown-toggle" id="whoisthere" style="font-size:14px" data-toggle="dropdown"><b class="caret"></b></a>
+                    <ul class="dropdown-menu" style="background-color:#CCCCCC">
                         <!-- <li>
                             <a href="#"><i class="fa fa-fw fa-user"></i> Profile</a>
                         </li>
@@ -162,8 +162,10 @@
                             <a href="#"><i class="fa fa-fw fa-gear"></i> Settings</a>
                         </li>
                         <li class="divider"></li>-->
-                        <li>
-                            <a href="#" style="letter-spacing:2px"><!--<i class="fa fa-fw fa-power-off"></i>--> Log Out</a>
+                        <li style="background-color:#CCCCCC">
+
+                            <div id="logoutbtn" class="fa fa-user"><button> Log Out</button></div>
+
                         </li>
                     </ul>
                 </li>
@@ -521,11 +523,33 @@
         }
     </script> -->
 
+    <!--<script>
+        $.ajax({
+            url: "../Project/mysqlilogin/whois.php",
+            dataType: "text"
+        }).success(function(userdata) {
+            document.getElementById("whoisthere").innerHTML = userdata.name;
+        })
+    </script>-->
+
+    <script>
+        $("#logoutbtn").click(function() {
+            $.ajax({
+                url: "../Project/mysqlilogin/mylogout.php"
+            }).success(function() {
+                window.location = "../Project/frontend/randomhtml/doc1.html";
+            })
+        })
+    </script>
+
     <script>
         $.ajax({
-            url: "../Project/phpstuff/alldata.php",
+            type: "GET",
+            url: "../Project/mysqlilogin/userspecific.php",
+            data: "display=1",
             dataType: "JSON"
         }).success(function(thedata) {
+            document.getElementById("whoisthere").innerHTML = thedata.whoisthere;
             document.getElementById("tvntid1").innerHTML = thedata.total;
             document.getElementById("uvc").innerHTML = thedata.unique;
             document.getElementById("avgsession").innerHTML = thedata.avgsession;
@@ -561,23 +585,24 @@
             new Morris.Area({
                 element: 'morris-area-chart',
                 data: [{
-                    Day: thedata.date5.toString().substr(7, 4) + "-03-" + thedata.date5.toString().substr(4, 2),
+                    //Day: thedata.date5.toString().substr(7, 4) + "-03-" + thedata.date5.toString().substr(4, 2),
+                    Day: thedata.date5,
                     Windows: thedata.oswin5,
                     Android: thedata.osand5,
                 }, {
-                    Day: thedata.date4.toString().substr(7, 4) + "-03-" + thedata.date4.toString().substr(4, 2),
+                    Day: thedata.date4,
                     Windows: thedata.oswin4,
                     Android: thedata.osand4,
                 }, {
-                    Day: thedata.date3.toString().substr(7, 4) + "-03-" + thedata.date3.toString().substr(4, 2),
+                    Day: thedata.date3,
                     Windows: thedata.oswin3,
                     Android: thedata.osand3,
                 }, {
-                    Day: thedata.date2.toString().substr(7, 4) + "-03-" + thedata.date2.toString().substr(4, 2),
+                    Day: thedata.date2,
                     Windows: thedata.oswin2,
                     Android: thedata.osand2,
                 }, {
-                    Day: thedata.date1.toString().substr(7, 4) + "-03-" + thedata.date1.toString().substr(4, 2),
+                    Day: thedata.date1,
                     Windows: thedata.oswin1,
                     Android: thedata.osand1,
                 }],
