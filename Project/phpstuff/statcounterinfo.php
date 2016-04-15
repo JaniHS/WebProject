@@ -20,7 +20,7 @@
     $height = $_GET['height'];
     $date = $_GET['date'];
 
-    $queryInfo = "INSERT INTO statcounter(ip, startTime, touch, os, ref, hostname, pathname, width, height, datevar) VALUES ('$_SERVER[REMOTE_ADDR]', '$curr_time', $touch, '$os', '$ref', '$host', '$path', '$width', '$height', '$date')";
+    $queryInfo = "INSERT INTO statcounter(ip, startTime, touch, os, ref, hostname, pathname, width, height, datevar) VALUES ('$_SERVER[REMOTE_ADDR]', '$curr_time', $touch, '$os', '$ref', '$host', '$path', '$width', '$height', STR_TO_DATE('$date', '%b %d %Y'))";
     if(mysqli_query($conn, $queryInfo)){
         echo "New record created successfully.";
     }

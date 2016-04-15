@@ -112,7 +112,7 @@
                 <a class="navbar-brand" href="#">SHERLOCK ANALYTICS</a>
             </div>
             <div class="collapse navbar-collapse" id="myNavbar">
-                <ul class="nav navbar-nav navbar-right">
+                <ul class="nav navbar-nav navbar-right" id="whoisthere">
                     <!---<li><a href="#">WHO</a></li>-->
                     <li>
                         <button type="button" class="btn btncolor" data-toggle="modal" data-target="#popUpWindow" style="margin-top: 7px; margin-left: 10px; padding: 5px">Log In</button>
@@ -131,7 +131,7 @@
                                     <div class="modal-body">
                                         <form role="form" action="../../mysqlilogin/mylogin.php" method="post" id="f1">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" placeholder="Username" id="userLoginName">
+                                                <input type="text" class="form-control" placeholder="E-mail ID" id="userLoginEmail">
                                             </div>
                                             <div class="form-group">
                                                 <input type="password" class="form-control" placeholder="Password" id="userLoginPass">
@@ -165,7 +165,7 @@
                                     <div class="modal-body">
                                         <form role="form" action="../../mysqlilogin/myreg.php" method="post">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" placeholder="Username" id="username">
+                                                <input type="text" class="form-control" placeholder="Domain Name" id="username">
                                             </div>
                                             <div class="form-group">
                                                 <input type="email" class="form-control" placeholder="Email" id="useremail">
@@ -277,7 +277,17 @@
         }
     </script>
 
-
+    <script>
+        $("document").ready(function(){
+            $.ajax({
+                url: "../../mysqlilogin/userspecific.php"
+            }).success(function(userwho){
+                if(userwho!=false){
+                    document.getElementById("whoisthere").innerHTML = '<a href="../../../statisticsdashboard/kek.html" class="btncolor"><h4>'+userwho+'</h4></a>'
+                }
+            })
+        });
+    </script>
 
 
     <script type="text/javascript">
@@ -311,18 +321,18 @@
 
 
             $("#btn-login").click(function() {
-                var loginName = $("#userLoginName").val();
+                var loginName = $("#userLoginEmail").val();
                 var loginPass = $("#userLoginPass").val();
                 $.ajax({
                     type: "GET",
-                    url: "../../mysqlilogin/mylogin.php",
-                    data: "loginName=" + loginName + "&loginPass=" + loginPass,
+                    url: "../../mysqlilogin/userspecific.php",
+                    data: "loginName=" + loginName + "&loginPass=" + loginPass + "&logvar=1",
                     success: function(retv) {
                         if (retv == true) {
                             window.location = "../../../statisticsdashboard/kek.html";
                         } else {
                             document.getElementById("f1").innerHTML =
-                                '<div class="form-group"><input type="text" class="form-control" placeholder="Username" id="userLoginName"></div><div class="form-group"><input type="password" class="form-control" placeholder="Password" id="userLoginPass"></div><div style="font:Arial; color:#2f2f2f">Wrong Username or Password combination entered.</div>';
+                                '<div class="form-group"><input type="text" class="form-control" placeholder="Username" id="userLoginEmail"></div><div class="form-group"><input type="password" class="form-control" placeholder="Password" id="userLoginPass"></div><div style="font:Arial; color:#2f2f2f">Wrong Username or Password combination entered.</div>';
                         }
                     }
                 })
