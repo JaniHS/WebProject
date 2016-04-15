@@ -298,14 +298,14 @@
                 var username = $("#username").val();
                 var password = $("#userpassword").val();
                 $.ajax({
-                    type: "POST",
-                    url: "../../mysqlilogin/myreg.php",
-                    data: "user_name=" + username + "&user_email=" + uemail + "&password=" + password,
+                    type: "GET",
+                    url: "../../mysqlilogin/userspecific.php",
+                    data: "user_name=" + username + "&user_email=" + uemail + "&password=" + password + "&regvar=1",
                     success: function(returnVal) {
                         //Do Something
 
                         if (returnVal === "falseval") {
-                            alert("Could not process this shit");
+                            alert("Could not process this information.");
                         } else {
                             window.location = "../../../statisticsdashboard/kek.html";
                         }
